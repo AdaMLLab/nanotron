@@ -1,13 +1,13 @@
 checkpoints:
   checkpoint_interval: 1200
-  checkpoints_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_arabicweb24
+  checkpoints_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_consensus_30bt
   checkpoints_path_is_shared_file_system: true
   resume_checkpoint_path: null
   save_initial_state: false
 data_stages:
 - data:
     dataset:
-      dataset_folder: /home/alrashsm/tokenized_data/gemma_tokenizer/arabicweb24
+      dataset_folder: /home/alrashsm/tokenized_data/gemma_tokenizer/aramix-consensus-30bt
     num_loading_workers: 4
     seed: 42
   name: Stable Training Stage
@@ -16,8 +16,8 @@ general:
   benchmark_csv_path: null
   consumed_train_samples: null
   ignore_sanity_checks: true
-  project: llama_1.46B_arabicweb24
-  run: llama_1.46B_arabicweb24_%date_%jobid
+  project: llama_1.46B_consensus
+  run: llama_1.46B_consensus_%date_%jobid
   seed: 42
   step: null
 lighteval: null

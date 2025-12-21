@@ -1,0 +1,34 @@
+# FineWeb2 Arabic FineTasks Evaluation Configuration
+# Matches the evaluation setup from FineWeb2 paper Table 6
+
+logging:
+  output_dir: ./results
+  save_details: true
+  push_to_hub: false
+  push_to_tensorboard: false
+  public_run: false
+  results_org: null
+  tensorboard_metric_prefix: eval
+
+tasks:
+  # FineWeb2 Arabic FineTasks - adapted to installed lighteval version
+  # GK: arc_easy, sciq (substitute for alghafa_sciqa)
+  # RC: belebele, soqal, mlqa, tydiqa, race_ar (substitute), arcd
+  # RES: xcodah, piqa, xcsqa
+  # NLU: xnli2.0, hellaswag, xstory_cloze
+  # Note: mlqa_ara, mlmm_hellaswag_ara_cf removed due to datasets 4.x script incompatibility
+  tasks: "alghafa_arc_ara_cf:easy|0,sciq_ar|0,belebele_arb_Arab_cf|0,soqal_ara_cf|0,tydiqa_ara|0,race_ar|0,arcd_ara|0,xcodah_ara_cf|0,alghafa_piqa_ara_cf|0,xcsqa_ara_cf|0,xnli2.0_ara_cf|0,xstory_cloze_ara_cf|0"
+  custom_tasks: null
+  max_samples: null
+  dataset_loading_processes: 1
+  multichoice_continuations_start_space: null
+  pairwise_tokenization: false
+
+parallelism:
+  dp: 1
+  pp: 1
+  tp: 1
+
+batch_size: 8
+
+generation: null

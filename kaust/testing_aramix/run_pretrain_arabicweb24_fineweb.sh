@@ -2,11 +2,11 @@
 #
 # Train TWO SEPARATE LLaMA 1.46B models back-to-back:
 #
-#   Model 1: Trained on Aramix MinHash Deduped 30BT (~29.36B tokens)
-#            Checkpoints: checkpoints/
+#   Model 1: Trained on ArabicWeb24 (~29.3B tokens)
+#            Checkpoints: kaust/checkpoints/checkpoints_arabicweb24/
 #
-#   Model 2: Trained on ArabicWeb24 (~29.3B tokens)
-#            Checkpoints: checkpoints_arabicweb24/
+#   Model 2: Trained on FineWeb-Edu Arabic (~30B tokens)
+#            Checkpoints: kaust/checkpoints/checkpoints_fineweb_edu_ar_30bt/
 #
 # Each model is trained independently from scratch (not resumed from the other).
 #
@@ -21,6 +21,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CHECKPOINTS_DIR="/home/alrashsm/github/nanotron/kaust/checkpoints"
 
 echo "############################################################"
 echo "#                                                          #"
@@ -30,13 +31,13 @@ echo "############################################################"
 echo ""
 echo "This script trains TWO INDEPENDENT models back-to-back:"
 echo ""
-echo "  Model 1: Aramix MinHash Deduped 30BT"
-echo "           - Tokens: ~29.36B"
-echo "           - Checkpoints: ${SCRIPT_DIR}/checkpoints_aramix_30bt/"
-echo ""
-echo "  Model 2: ArabicWeb24"
+echo "  Model 1: ArabicWeb24"
 echo "           - Tokens: ~29.3B"
-echo "           - Checkpoints: ${SCRIPT_DIR}/checkpoints_arabicweb24/"
+echo "           - Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_arabicweb24/"
+echo ""
+echo "  Model 2: FineWeb-Edu Arabic"
+echo "           - Tokens: ~30B"
+echo "           - Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_fineweb_edu_ar_30bt/"
 echo ""
 echo "Each model starts from scratch with random initialization."
 echo "############################################################"
@@ -47,34 +48,34 @@ START_TIME=$(date +%s)
 
 echo ""
 echo "============================================================"
-echo "[Model 1/2] Training on Aramix MinHash Deduped 30BT"
+echo "[Model 1/2] Training on ArabicWeb24"
 echo "============================================================"
 echo "Start time: $(date)"
-echo "Checkpoints: ${SCRIPT_DIR}/checkpoints_aramix_30bt/"
+echo "Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_arabicweb24/"
 echo ""
 
-"${SCRIPT_DIR}/run_pretrain.sh"
+"${SCRIPT_DIR}/run_pretrain_arabicweb24.sh"
 
 MODEL1_END_TIME=$(date +%s)
 MODEL1_DURATION=$((MODEL1_END_TIME - START_TIME))
 
 echo ""
 echo "============================================================"
-echo "[Model 1/2] COMPLETE - Aramix model trained!"
+echo "[Model 1/2] COMPLETE - ArabicWeb24 model trained!"
 echo "Duration: $((MODEL1_DURATION / 3600))h $((MODEL1_DURATION % 3600 / 60))m $((MODEL1_DURATION % 60))s"
-echo "Checkpoints: ${SCRIPT_DIR}/checkpoints_aramix_30bt/"
+echo "Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_arabicweb24/"
 echo "============================================================"
 echo ""
 
 echo ""
 echo "============================================================"
-echo "[Model 2/2] Training on ArabicWeb24 (starting fresh)"
+echo "[Model 2/2] Training on FineWeb-Edu Arabic (starting fresh)"
 echo "============================================================"
 echo "Start time: $(date)"
-echo "Checkpoints: ${SCRIPT_DIR}/checkpoints_arabicweb24/"
+echo "Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_fineweb_edu_ar_30bt/"
 echo ""
 
-"${SCRIPT_DIR}/run_pretrain_arabicweb24.sh"
+"${SCRIPT_DIR}/run_pretrain_fineweb_edu_ar.sh"
 
 END_TIME=$(date +%s)
 MODEL2_DURATION=$((END_TIME - MODEL1_END_TIME))
@@ -89,13 +90,13 @@ echo "############################################################"
 echo ""
 echo "Summary:"
 echo ""
-echo "  Model 1 (Aramix):"
+echo "  Model 1 (ArabicWeb24):"
 echo "    - Duration: $((MODEL1_DURATION / 3600))h $((MODEL1_DURATION % 3600 / 60))m $((MODEL1_DURATION % 60))s"
-echo "    - Checkpoints: ${SCRIPT_DIR}/checkpoints_aramix_30bt/"
+echo "    - Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_arabicweb24/"
 echo ""
-echo "  Model 2 (ArabicWeb24):"
+echo "  Model 2 (FineWeb-Edu Arabic):"
 echo "    - Duration: $((MODEL2_DURATION / 3600))h $((MODEL2_DURATION % 3600 / 60))m $((MODEL2_DURATION % 60))s"
-echo "    - Checkpoints: ${SCRIPT_DIR}/checkpoints_arabicweb24/"
+echo "    - Checkpoints: ${CHECKPOINTS_DIR}/checkpoints_fineweb_edu_ar_30bt/"
 echo ""
 echo "  Total duration: $((TOTAL_DURATION / 3600))h $((TOTAL_DURATION % 3600 / 60))m $((TOTAL_DURATION % 60))s"
 echo ""
