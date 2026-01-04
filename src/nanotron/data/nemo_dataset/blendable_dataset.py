@@ -143,7 +143,11 @@ class BlendableDataset(torch.utils.data.Dataset):
         dataset_idx = self.dataset_index[idx]
         sample_idx = self.dataset_sample_index[idx]
 
-        return self.datasets[dataset_idx][sample_idx + self.offsets_in_samples[dataset_idx]] # TODO: is it okay to not respect dataset_sample_index? Since it's sequential it's okay for now
+        # Apply offset and wrap around to handle cases where the index exceeds dataset length
+        # This allows training to cycle through the dataset when more samples are needed
+        dataset_len = len(self.datasets[dataset_idx])
+        adjusted_idx = (sample_idx + self.offsets_in_samples[dataset_idx]) % dataset_len
+        return self.datasets[dataset_idx][adjusted_idx]
 
     # @property
     # def last_file_idx(self):

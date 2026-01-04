@@ -2,7 +2,7 @@ checkpoints:
   checkpoint_interval: 1200
   checkpoints_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_arabicweb24
   checkpoints_path_is_shared_file_system: true
-  resume_checkpoint_path: null
+  resume_checkpoint_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_arabicweb24
   save_initial_state: false
 data_stages:
 - data:
