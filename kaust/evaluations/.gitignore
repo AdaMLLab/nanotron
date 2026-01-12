@@ -1,0 +1,10 @@
+# Runtime artifacts
+.locks/
+.queue/
+
+# HuggingFace model cache
+hf_models/
+
+# All other generated content
+*.pyc
+__pycache__/

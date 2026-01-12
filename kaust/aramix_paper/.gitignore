@@ -1,0 +1,15 @@
+# Tokenization/preprocessing logs
+logs/
+logs_consensus/
+logs_*/
+
+# Model checkpoints (stored externally)
+checkpoints*/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Archive directory
+archive/
