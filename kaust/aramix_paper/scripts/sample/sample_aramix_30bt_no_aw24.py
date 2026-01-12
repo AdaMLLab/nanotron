@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """
-Script to sample ~10B tokens from the Aramix MinHash deduped dataset
+Script to sample ~30B tokens from the Aramix MinHash deduped dataset
 while maintaining the specified source ratios.
 
-Target ratios (from the paper):
-- CulturaX: 23.7%
-- ArabicWeb24: 19.9%
-- HPLT 2.0: 19.5%
-- FineWeb-2: 15.4%
-- C4: 12.6%
-- 101B Arabic Words: 5.3%
-- FinePDFs: 3.5%
+IMPORTANT: This script EXCLUDES ArabicWeb24 and redistributes its proportion
+to the remaining sources.
+
+Target ratios (after excluding ArabicWeb24 and redistributing):
+- CulturaX: 29.55%
+- HPLT 2.0: 24.31%
+- FineWeb-2: 19.33%
+- C4: 15.84%
+- 101B Arabic Words: 6.61%
+- FinePDFs: 4.36%
 """
 
 import argparse
@@ -52,19 +54,23 @@ SOURCE_MAPPING = {
     "finepdfs": "FinePDFs",
 }
 
-# Target ratios (percentages)
+# Sources to EXCLUDE from sampling
+EXCLUDED_SOURCES = {"ArabicWeb24"}
+
+# Target ratios (percentages) - EXCLUDING ArabicWeb24
+# Original ratios from MinHash column, redistributed after removing ArabicWeb24 (19.9%)
+# Calculation: new_ratio = original_ratio / 80.2 * 100
 TARGET_RATIOS = {
-    "CulturaX": 23.7,
-    "ArabicWeb24": 19.9,
-    "HPLT 2.0": 19.5,
-    "FineWeb-2": 15.4,
-    "C4": 12.6,
-    "101B Arabic Words": 5.3,
-    "FinePDFs": 3.5,
+    "CulturaX": 29.55,       # was 23.7%
+    "HPLT 2.0": 24.31,       # was 19.5%
+    "FineWeb-2": 19.33,      # was 15.5%
+    "C4": 15.84,             # was 12.7%
+    "101B Arabic Words": 6.61,  # was 5.3%
+    "FinePDFs": 4.36,        # was 3.5%
 }
 
-# Target total tokens (10B with a small buffer)
-TARGET_TOKENS = 10_500_000_000  # 10.5B to ensure we get just over 10B
+# Target total tokens (30B with a small buffer)
+TARGET_TOKENS = 31_500_000_000  # 31.5B to ensure we get just over 30B
 
 
 def normalize_source(source: str) -> str:
@@ -78,6 +84,12 @@ def normalize_source(source: str) -> str:
             return val
     # Return as-is if no mapping found
     return source
+
+
+def is_excluded_source(source: str) -> bool:
+    """Check if a source should be excluded."""
+    canonical = normalize_source(source)
+    return canonical in EXCLUDED_SOURCES
 
 
 def estimate_tokens_per_source(
@@ -106,14 +118,19 @@ def estimate_tokens_per_source(
 
     # First pass: count total documents per source
     print("Counting documents per source...")
+    excluded_count = 0
     for pf_path in tqdm(parquet_files, desc="Counting"):
         table = pq.read_table(pf_path, columns=["source"])
         sources = table.column("source").to_pylist()
         for src in sources:
             canonical = normalize_source(src)
+            if canonical in EXCLUDED_SOURCES:
+                excluded_count += 1
+                continue
             doc_counts[canonical] += 1
 
-    print("\nDocument counts by source:")
+    print(f"\nExcluded {excluded_count:,} documents from excluded sources (ArabicWeb24)")
+    print("\nDocument counts by source (included only):")
     for src, count in sorted(doc_counts.items(), key=lambda x: -x[1]):
         print(f"  {src}: {count:,}")
 
@@ -132,6 +149,8 @@ def estimate_tokens_per_source(
 
         for src, group in df.groupby("source"):
             canonical = normalize_source(src)
+            if canonical in EXCLUDED_SOURCES:
+                continue
             if sample_needs.get(canonical, 0) > 0:
                 n_to_sample = min(sample_needs[canonical], len(group))
                 sampled = group.sample(n=n_to_sample, random_state=42)
@@ -255,6 +274,8 @@ def sample_and_save(
 
         for idx, src in enumerate(sources):
             canonical = normalize_source(src)
+            if canonical in EXCLUDED_SOURCES:
+                continue
             source_indices[canonical].append((pf_path, idx))
 
     # Randomly sample indices for each source
@@ -353,10 +374,11 @@ def sample_and_save(
 
     summary_path = os.path.join(output_dir, "sampling_summary.txt")
     with open(summary_path, "w") as f:
-        f.write("Aramix 10B Token Sample Summary\n")
+        f.write("Aramix 30B Token Sample Summary (No ArabicWeb24)\n")
         f.write("=" * 50 + "\n\n")
         f.write(f"Total documents: {len(all_sampled_rows):,}\n")
         f.write(f"Estimated total tokens: {estimated_total/1e9:.2f}B\n\n")
+        f.write("EXCLUDED SOURCES: ArabicWeb24\n\n")
         f.write("Source breakdown:\n")
 
         total_docs = sum(s["docs"] for s in source_stats.values())
@@ -370,7 +392,7 @@ def sample_and_save(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Sample ~10B tokens from Aramix dataset with target source ratios"
+        description="Sample ~30B tokens from Aramix dataset (excluding ArabicWeb24) with target source ratios"
     )
     parser.add_argument(
         "--input-dir",
@@ -381,7 +403,7 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/home/alrashsm/data/aramix-minhash-deduped-10bt/",
+        default="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24-30bt/",
         help="Output directory for sampled dataset"
     )
     parser.add_argument(
@@ -393,8 +415,8 @@ def main():
     parser.add_argument(
         "--target-tokens",
         type=float,
-        default=10.5,
-        help="Target tokens in billions (default: 10.5B)"
+        default=31.5,
+        help="Target tokens in billions (default: 31.5B)"
     )
     parser.add_argument(
         "--seed",
@@ -414,13 +436,14 @@ def main():
     target_tokens = int(args.target_tokens * 1e9)
 
     print("=" * 60)
-    print("Aramix 10B Token Sampler")
+    print("Aramix 30B Token Sampler (No ArabicWeb24)")
     print("=" * 60)
     print(f"Input directory: {args.input_dir}")
     print(f"Output directory: {args.output_dir}")
     print(f"Tokenizer: {args.tokenizer}")
     print(f"Target tokens: {target_tokens/1e9:.1f}B")
     print(f"Random seed: {args.seed}")
+    print(f"EXCLUDED SOURCES: {EXCLUDED_SOURCES}")
     print("=" * 60)
 
     # Load tokenizer
