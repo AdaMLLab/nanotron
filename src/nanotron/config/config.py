@@ -178,6 +178,8 @@ class NanosetDatasetsArgs:
 
         # Read the first metadata file in the dataset folder to extract tokenizer name and token size.
         for folder in self.dataset_folder:
+            # Expand ~ to home directory if provided
+            folder = os.path.expanduser(folder)
             # Find all metadata files in the folder
             metadata_files = glob.glob(os.path.join(folder, "*.metadata"))
             if metadata_files:
