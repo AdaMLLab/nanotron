@@ -6,17 +6,17 @@ ARAMIX_PAPER_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 NANOTRON_DIR="$(dirname "$(dirname "$ARAMIX_PAPER_DIR")")"
 
 TOKENIZER="google/gemma-2b"
-OUTPUT_BASE="/home/alrashsm/tokenized_data/gemma_tokenizer"
+OUTPUT_BASE="$HOME/tokenized_data/gemma_tokenizer"
 
 declare -A DATASETS=(
-    ["arabicweb24"]="/home/alrashsm/data/arabicweb24/ArabicWeb24|arabicweb24|32"
-    ["consensus"]="/home/alrashsm/data/aramix-consensus-30bt/data/sampled|aramix-consensus-30bt|16"
-    ["finepdfs_arabic"]="/home/alrashsm/data/finepdfs-arabic/data/arb_Arab|finepdfs-arabic|16"
-    ["fineweb_edu_ar"]="/home/alrashsm/data/fineweb-edu-ar-30bt/data|fineweb-edu-ar-30bt|32"
+    ["arabicweb24"]="$HOME/data/arabicweb24/ArabicWeb24|arabicweb24|32"
+    ["consensus"]="$HOME/data/aramix-consensus-30bt/data/sampled|aramix-consensus-30bt|16"
+    ["finepdfs_arabic"]="$HOME/data/finepdfs-arabic/data/arb_Arab|finepdfs-arabic|16"
+    ["fineweb_edu_ar"]="$HOME/data/fineweb-edu-ar-30bt/data|fineweb-edu-ar-30bt|32"
     # No ArabicWeb24 variants (30B tokens)
-    ["minhash_no_aw24"]="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24-30bt/data/sampled|aramix-minhash-no_aw24-30bt|32"
-    ["consensus_no_aw24"]="/home/alrashsm/data/aramix_paper/aramix-consensus-no_aw24-30bt/data|aramix-consensus-no_aw24-30bt|16"
-    ["minhash_no_aw24_consensus_checked"]="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24_consensus_checked-30bt/data/sampled|aramix-minhash-no_aw24_consensus_checked-30bt|32"
+    ["minhash_no_aw24"]="$HOME/data/aramix_paper/aramix-minhash-no_aw24-30bt/data/sampled|aramix-minhash-no_aw24-30bt|32"
+    ["consensus_no_aw24"]="$HOME/data/aramix_paper/aramix-consensus-no_aw24-30bt/data|aramix-consensus-no_aw24-30bt|16"
+    ["minhash_no_aw24_consensus_checked"]="$HOME/data/aramix_paper/aramix-minhash-no_aw24_consensus_checked-30bt/data/sampled|aramix-minhash-no_aw24_consensus_checked-30bt|32"
 )
 
 tokenize_dataset() {

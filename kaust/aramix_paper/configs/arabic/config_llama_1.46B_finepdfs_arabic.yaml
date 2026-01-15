@@ -1,13 +1,13 @@
 checkpoints:
   checkpoint_interval: 1200
-  checkpoints_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_finepdfs_arabic
+  checkpoints_path: ~/github/nanotron/kaust/checkpoints/checkpoints_finepdfs_arabic
   checkpoints_path_is_shared_file_system: true
-  resume_checkpoint_path: /home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_finepdfs_arabic
+  resume_checkpoint_path: ~/github/nanotron/kaust/checkpoints/checkpoints_finepdfs_arabic
   save_initial_state: false
 data_stages:
 - data:
     dataset:
-      dataset_folder: /home/alrashsm/tokenized_data/gemma_tokenizer/finepdfs-arabic
+      dataset_folder: ~/tokenized_data/gemma_tokenizer/finepdfs-arabic
     num_loading_workers: 4
     seed: 42
   name: Stable Training Stage

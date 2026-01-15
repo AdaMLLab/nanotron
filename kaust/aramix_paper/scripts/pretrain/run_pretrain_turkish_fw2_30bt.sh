@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ARAMIX_PAPER_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 NANOTRON_DIR="$(dirname "$(dirname "$ARAMIX_PAPER_DIR")")"
 CONFIGS_DIR="${ARAMIX_PAPER_DIR}/configs/turkish"
-CHECKPOINTS_DIR="/home/alrashsm/nanotron_checkpoints/aramix_paper"
+CHECKPOINTS_DIR="$HOME/nanotron_checkpoints/aramix_paper"
 
 NUM_GPUS=8
 export CUDA_DEVICE_MAX_CONNECTIONS=1

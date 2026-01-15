@@ -1,16 +1,16 @@
 #!/bin/bash
 
-CHECKPOINT_DIR="${1:-/home/alrashsm/github/nanotron/kaust/checkpoints/checkpoints_aramix_30bt}"
+CHECKPOINT_DIR="${1:-$HOME/github/nanotron/kaust/checkpoints/checkpoints_aramix_30bt}"
 NUM_CHECKPOINTS="${2:-5}"
-TASK_CONFIG="${3:-/home/alrashsm/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
-OUTPUT_DIR="${4:-/home/alrashsm/github/nanotron/kaust/aramix_paper/results}"
+TASK_CONFIG="${3:-$HOME/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
+OUTPUT_DIR="${4:-$HOME/github/nanotron/kaust/aramix_paper/results}"
 TOKENIZER="${5:-google/gemma-2b}"
 BATCH_SIZE="${6:-8}"
 NUM_GPUS="${7:-8}"
 
-NANOTRON_ROOT="/home/alrashsm/github/nanotron"
-NANOTRON_PYTHON="/home/alrashsm/miniconda3/envs/nanotron/bin/python"
-LIGHTEVAL_PYTHON="/home/alrashsm/miniconda3/envs/lighteval/bin/python"
+NANOTRON_ROOT="$HOME/github/nanotron"
+NANOTRON_PYTHON="$HOME/miniconda3/envs/nanotron/bin/python"
+LIGHTEVAL_PYTHON="$HOME/miniconda3/envs/lighteval/bin/python"
 
 CF_TASKS=$(grep "^CF:" "$TASK_CONFIG" | cut -d: -f2)
 MC_TASKS=$(grep "^MC:" "$TASK_CONFIG" | cut -d: -f2)

@@ -301,13 +301,13 @@ def main():
     parser.add_argument(
         "--input-dir",
         type=str,
-        default="/home/alrashsm/data/aramix_paper/aramix-consensus",
+        default="~/data/aramix_paper/aramix-consensus",
         help="Input dataset directory"
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/home/alrashsm/data/aramix_paper/aramix-consensus-no_aw24-30bt",
+        default="~/data/aramix_paper/aramix-consensus-no_aw24-30bt",
         help="Output directory for sampled dataset"
     )
     parser.add_argument(

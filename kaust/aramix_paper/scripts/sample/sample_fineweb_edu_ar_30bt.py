@@ -7,7 +7,7 @@ ratio balancing is needed - we simply sample enough documents to reach
 the target token count.
 
 Dataset info:
-- Location: /home/alrashsm/data/fineweb-edu-ar-kaust-gen-ai/ar
+- Location: ~/data/fineweb-edu-ar-kaust-gen-ai/ar
 - Format: HuggingFace dataset (zip files with jsonl)
 - Column: text
 """
@@ -161,13 +161,13 @@ def main():
     parser.add_argument(
         "--input-dir",
         type=str,
-        default="/home/alrashsm/data/fineweb-edu-ar-kaust-gen-ai/ar",
+        default="~/data/fineweb-edu-ar-kaust-gen-ai/ar",
         help="Input dataset directory"
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/home/alrashsm/data/fineweb-edu-ar-30bt/",
+        default="~/data/fineweb-edu-ar-30bt/",
         help="Output directory for sampled dataset"
     )
     parser.add_argument(

@@ -336,13 +336,13 @@ def main():
     parser.add_argument(
         "--input-dir",
         type=str,
-        default="/home/alrashsm/data/aramix-consensus/",
+        default="~/data/aramix-consensus/",
         help="Input dataset directory"
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/home/alrashsm/data/aramix-consensus-10bt/",
+        default="~/data/aramix-consensus-10bt/",
         help="Output directory for sampled dataset"
     )
     parser.add_argument(

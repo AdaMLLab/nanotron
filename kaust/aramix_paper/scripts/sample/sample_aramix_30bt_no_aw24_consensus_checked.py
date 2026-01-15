@@ -455,19 +455,19 @@ def main():
     parser.add_argument(
         "--input-dir",
         type=str,
-        default="/home/alrashsm/data/pretraining_data/aramix-minhash-deduped",
+        default="~/data/pretraining_data/aramix-minhash-deduped",
         help="Input dataset directory"
     )
     parser.add_argument(
         "--consensus-dir",
         type=str,
-        default="/home/alrashsm/data/aramix_paper/aramix-consensus",
+        default="~/data/aramix_paper/aramix-consensus",
         help="Consensus dataset directory (for ArabicWeb24 checking)"
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24_consensus_checked-30bt",
+        default="~/data/aramix_paper/aramix-minhash-no_aw24_consensus_checked-30bt",
         help="Output directory for sampled dataset"
     )
     parser.add_argument(
