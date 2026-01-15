@@ -13,6 +13,10 @@ declare -A DATASETS=(
     ["consensus"]="/home/alrashsm/data/aramix-consensus-30bt/data/sampled|aramix-consensus-30bt|16"
     ["finepdfs_arabic"]="/home/alrashsm/data/finepdfs-arabic/data/arb_Arab|finepdfs-arabic|16"
     ["fineweb_edu_ar"]="/home/alrashsm/data/fineweb-edu-ar-30bt/data|fineweb-edu-ar-30bt|32"
+    # No ArabicWeb24 variants (30B tokens)
+    ["minhash_no_aw24"]="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24-30bt/data/sampled|aramix-minhash-no_aw24-30bt|32"
+    ["consensus_no_aw24"]="/home/alrashsm/data/aramix_paper/aramix-consensus-no_aw24-30bt/data|aramix-consensus-no_aw24-30bt|16"
+    ["minhash_no_aw24_consensus_checked"]="/home/alrashsm/data/aramix_paper/aramix-minhash-no_aw24_consensus_checked-30bt/data/sampled|aramix-minhash-no_aw24_consensus_checked-30bt|32"
 )
 
 tokenize_dataset() {
