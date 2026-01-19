@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Trap Ctrl+C and kill all child processes
+cleanup() {
+    echo ""
+    echo "Caught interrupt signal. Killing all child processes..."
+    pkill -P $$ 2>/dev/null
+    pkill -f "convert_nanotron_to_hf|lighteval" 2>/dev/null
+    exit 1
+}
+trap cleanup SIGINT SIGTERM
+
 CHECKPOINT_DIR="${1:-$HOME/github/nanotron/kaust/checkpoints/checkpoints_aramix_30bt}"
 NUM_CHECKPOINTS="${2:-5}"
 TASK_CONFIG="${3:-$HOME/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
@@ -54,15 +64,16 @@ convert_checkpoint() {
     fi
 
     local port=$((29500 + gpu * 100 + RANDOM % 50))
+    local log_file="$OUTPUT_DIR/logs/convert_${MODEL_NAME}_step_${step}${suffix}.log"
+    mkdir -p "$OUTPUT_DIR/logs"
     (
         cd "$NANOTRON_ROOT"
-        CUDA_VISIBLE_DEVICES=$gpu MASTER_ADDR=localhost MASTER_PORT=$port RANK=0 WORLD_SIZE=1 LOCAL_RANK=0 \
-        $NANOTRON_PYTHON -m torch.distributed.run --nproc_per_node=1 --master_port=$port \
-            examples/llama/convert_nanotron_to_hf.py \
+        CUDA_VISIBLE_DEVICES=$gpu $NANOTRON_PYTHON -m torch.distributed.run --nproc_per_node=1 --master_port=$port \
+            -m examples.llama.convert_nanotron_to_hf \
             --checkpoint_path "$nanotron_path" \
             --save_path "$hf_path" \
             --tokenizer_name "$TOKENIZER"
-    ) > /dev/null 2>&1
+    ) 2>&1 | tee "$log_file"
 }
 
 run_eval() {
@@ -70,9 +81,11 @@ run_eval() {
     local gpu=$2
     local tasks=$3
     local suffix=$4
+    local task_type=$5
     local hf_path="$HF_MODELS_DIR/${MODEL_NAME}_step_${step}${suffix}"
     local out_dir="$RESULTS_DIR/step_${step}"
-    mkdir -p "$out_dir"
+    local log_file="$OUTPUT_DIR/logs/eval_${MODEL_NAME}_step_${step}_${task_type}.log"
+    mkdir -p "$out_dir" "$OUTPUT_DIR/logs"
 
     CUDA_VISIBLE_DEVICES=$gpu $LIGHTEVAL_PYTHON -m lighteval accelerate \
         "model_name=${hf_path},dtype=bfloat16,batch_size=${BATCH_SIZE}" \
@@ -80,7 +93,7 @@ run_eval() {
         --load-tasks-multilingual \
         --output-dir "$out_dir" \
         --save-details \
-        > /dev/null 2>&1
+        2>&1 | tee "$log_file"
 }
 
 run_step() {
@@ -91,15 +104,15 @@ run_step() {
     convert_checkpoint "$step" "$gpu" ""
 
     echo "[GPU $gpu] Step $step: Running CF..."
-    run_eval "$step" "$gpu" "$CF_TASKS" ""
+    run_eval "$step" "$gpu" "$CF_TASKS" "" "cf"
 
     echo "[GPU $gpu] Step $step: Running MC..."
-    run_eval "$step" "$gpu" "$MC_TASKS" ""
+    run_eval "$step" "$gpu" "$MC_TASKS" "" "mc"
 
     if [ -n "$GEN_TASKS" ]; then
         convert_checkpoint "$step" "$gpu" "_gen"
         echo "[GPU $gpu] Step $step: Running GEN..."
-        run_eval "$step" "$gpu" "$GEN_TASKS" "_gen"
+        run_eval "$step" "$gpu" "$GEN_TASKS" "_gen" "gen"
         rm -rf "$HF_MODELS_DIR/${MODEL_NAME}_step_${step}_gen"
     fi
 

@@ -1,8 +1,8 @@
 checkpoints:
   checkpoint_interval: 1200
-  checkpoints_path: ~/nanotron_checkpoints/aramix_paper/culturax_hindi_30bt
+  checkpoints_path: /scratch/nanotron_checkpoint/culturax_hindi_30bt
   checkpoints_path_is_shared_file_system: true
-  resume_checkpoint_path: ~/nanotron_checkpoints/aramix_paper/culturax_hindi_30bt
+  resume_checkpoint_path: /scratch/nanotron_checkpoint/culturax_hindi_30bt
   save_initial_state: false
 data_stages:
 - data:

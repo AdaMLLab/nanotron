@@ -1,0 +1,3 @@
+CF:xnli_hindi_cf|0,belebele_hin_Deva_cf|0,indicxcopa_hindi_cf|0,mlmm_hellaswag_hindi_cf|0,xstory_cloze:hi|0,xcsqa_hindi_cf|0,mlmm_arc_hindi_cf:challenge|0
+MC:indicnxnli_hindi_mcf|0,mlmm_mmlu_hindi_mcf|0
+GEN:mlqa_hindi|5,xquad_hindi|5,indicqa_hindi|5
