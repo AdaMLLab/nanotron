@@ -1,5 +1,5 @@
 #!/bin/bash
-# Evaluate 5 checkpoints from each aramix_paper model
+# Evaluate all checkpoints from each aramix_paper model using 8 GPUs
 
 # Trap Ctrl+C and kill all child processes
 cleanup() {
@@ -18,18 +18,21 @@ OUTPUT_DIR="/scratch/nanotron_results"
 
 # Model configurations: checkpoint_dir|task_config
 MODELS=(
-    "consensus_no_aw24_30bt|arabic_finetasks.txt"
-    "minhash_no_aw24_30bt|arabic_finetasks.txt"
+    # "consensus_no_aw24_30bt|arabic_finetasks.txt"
+    # "minhash_no_aw24_30bt|arabic_finetasks.txt"
     "culturax_hindi_30bt|hindi_finetasks.txt"
 )
 
 for model_cfg in "${MODELS[@]}"; do
-    IFS='|' read -r model_dir task_file <<< "$model_cfg"
+    model_dir="${model_cfg%%|*}"
+    task_file="${model_cfg##*|}"
     echo "=== Evaluating $model_dir ==="
     "$SCRIPT_DIR/run_finetasks.sh" \
         "$CHECKPOINT_BASE/$model_dir" \
-        5 \
+        9999 \
         "$CONFIG_DIR/$task_file" \
         "$OUTPUT_DIR" \
-        "google/gemma-2b"
+        "google/gemma-2b" \
+        12 \
+        8
 done

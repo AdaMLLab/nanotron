@@ -11,7 +11,7 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 CHECKPOINT_DIR="${1:-$HOME/github/nanotron/kaust/checkpoints/checkpoints_aramix_30bt}"
-NUM_CHECKPOINTS="${2:-5}"
+NUM_CHECKPOINTS="${2:-9999}"
 TASK_CONFIG="${3:-$HOME/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
 OUTPUT_DIR="${4:-$HOME/github/nanotron/kaust/aramix_paper/results}"
 TOKENIZER="${5:-google/gemma-2b}"
@@ -22,9 +22,9 @@ NANOTRON_ROOT="$HOME/github/nanotron"
 NANOTRON_PYTHON="$HOME/miniconda3/envs/nanotron/bin/python"
 LIGHTEVAL_PYTHON="$HOME/miniconda3/envs/lighteval/bin/python"
 
-CF_TASKS=$(grep "^CF:" "$TASK_CONFIG" | cut -d: -f2)
-MC_TASKS=$(grep "^MC:" "$TASK_CONFIG" | cut -d: -f2)
-GEN_TASKS=$(grep "^GEN:" "$TASK_CONFIG" | cut -d: -f2)
+CF_TASKS=$(grep "^CF:" "$TASK_CONFIG" | cut -d: -f2-)
+MC_TASKS=$(grep "^MC:" "$TASK_CONFIG" | cut -d: -f2-)
+GEN_TASKS=$(grep "^GEN:" "$TASK_CONFIG" | cut -d: -f2-)
 
 STEPS=($(ls -d "$CHECKPOINT_DIR"/*/ 2>/dev/null | xargs -n1 basename | grep -E '^[0-9]+$' | sort -n))
 TOTAL=${#STEPS[@]}
@@ -85,7 +85,14 @@ run_eval() {
     local hf_path="$HF_MODELS_DIR/${MODEL_NAME}_step_${step}${suffix}"
     local out_dir="$RESULTS_DIR/step_${step}"
     local log_file="$OUTPUT_DIR/logs/eval_${MODEL_NAME}_step_${step}_${task_type}.log"
+    local marker="$out_dir/.completed_${task_type}"
     mkdir -p "$out_dir" "$OUTPUT_DIR/logs"
+
+    # Skip if already completed
+    if [ -f "$marker" ]; then
+        echo "[GPU $gpu] Step $step: $task_type already completed, skipping"
+        return 0
+    fi
 
     CUDA_VISIBLE_DEVICES=$gpu $LIGHTEVAL_PYTHON -m lighteval accelerate \
         "model_name=${hf_path},dtype=bfloat16,batch_size=${BATCH_SIZE}" \
@@ -94,29 +101,51 @@ run_eval() {
         --output-dir "$out_dir" \
         --save-details \
         2>&1 | tee "$log_file"
+    local eval_exit=${PIPESTATUS[0]}
+
+    # Mark as completed if successful
+    if [ $eval_exit -eq 0 ]; then
+        echo "$(date -Iseconds)" > "$marker"
+    fi
 }
 
 run_step() {
     local step=$1
     local gpu=$2
+    local out_dir="$RESULTS_DIR/step_${step}"
 
-    echo "[GPU $gpu] Step $step: Converting..."
-    convert_checkpoint "$step" "$gpu" ""
+    # Check if all tasks are already completed
+    local cf_done=0 mc_done=0 gen_done=0
+    [ -f "$out_dir/.completed_cf" ] && cf_done=1
+    [ -f "$out_dir/.completed_mc" ] && mc_done=1
+    [ -z "$GEN_TASKS" ] || [ -f "$out_dir/.completed_gen" ] && gen_done=1
 
-    echo "[GPU $gpu] Step $step: Running CF..."
-    run_eval "$step" "$gpu" "$CF_TASKS" "" "cf"
+    if [ $cf_done -eq 1 ] && [ $mc_done -eq 1 ] && [ $gen_done -eq 1 ]; then
+        echo "[GPU $gpu] Step $step: All tasks already completed, skipping"
+        return 0
+    fi
 
-    echo "[GPU $gpu] Step $step: Running MC..."
-    run_eval "$step" "$gpu" "$MC_TASKS" "" "mc"
+    # Only convert if CF or MC needs to run
+    if [ $cf_done -eq 0 ] || [ $mc_done -eq 0 ]; then
+        echo "[GPU $gpu] Step $step: Converting..."
+        convert_checkpoint "$step" "$gpu" ""
 
-    if [ -n "$GEN_TASKS" ]; then
+        echo "[GPU $gpu] Step $step: Running CF..."
+        run_eval "$step" "$gpu" "$CF_TASKS" "" "cf"
+
+        echo "[GPU $gpu] Step $step: Running MC..."
+        run_eval "$step" "$gpu" "$MC_TASKS" "" "mc"
+
+        rm -rf "$HF_MODELS_DIR/${MODEL_NAME}_step_${step}"
+    fi
+
+    if [ -n "$GEN_TASKS" ] && [ $gen_done -eq 0 ]; then
         convert_checkpoint "$step" "$gpu" "_gen"
         echo "[GPU $gpu] Step $step: Running GEN..."
         run_eval "$step" "$gpu" "$GEN_TASKS" "_gen" "gen"
         rm -rf "$HF_MODELS_DIR/${MODEL_NAME}_step_${step}_gen"
     fi
 
-    rm -rf "$HF_MODELS_DIR/${MODEL_NAME}_step_${step}"
     echo "[GPU $gpu] Step $step: Done"
 }
 
