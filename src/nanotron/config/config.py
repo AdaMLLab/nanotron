@@ -255,9 +255,9 @@ class CheckpointsArgs:
 
     def __post_init__(self):
         if isinstance(self.checkpoints_path, str):
-            self.checkpoints_path = xPath(self.checkpoints_path)
+            self.checkpoints_path = xPath(os.path.expanduser(self.checkpoints_path))
         if isinstance(self.resume_checkpoint_path, str):
-            self.resume_checkpoint_path = xPath(self.resume_checkpoint_path)
+            self.resume_checkpoint_path = xPath(os.path.expanduser(self.resume_checkpoint_path))
 
 
 @dataclass
