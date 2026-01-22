@@ -94,7 +94,7 @@ run_eval() {
         return 0
     fi
 
-    CUDA_VISIBLE_DEVICES=$gpu $LIGHTEVAL_PYTHON -m lighteval accelerate \
+    HF_DATASETS_TRUST_REMOTE_CODE=1 CUDA_VISIBLE_DEVICES=$gpu $LIGHTEVAL_PYTHON -m lighteval accelerate \
         "model_name=${hf_path},dtype=bfloat16,batch_size=${BATCH_SIZE}" \
         "$tasks" \
         --load-tasks-multilingual \

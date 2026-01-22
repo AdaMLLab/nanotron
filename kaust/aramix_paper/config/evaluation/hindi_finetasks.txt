@@ -1,3 +1,6 @@
-CF:xnli_hin_cf|0,belebele_hin_Deva_cf|0,indicxcopa_hin_cf|0,mlmm_hellaswag_hin_cf|0,xstory_cloze_hin_cf|0,xcsqa_hin_cf|0,mlmm_arc_hin_cf:challenge|0
+CF:xnli_hin_cf|0,belebele_hin_Deva_cf|0,mlmm_hellaswag_hin_cf|0,xstory_cloze_hin_cf|0,xcsqa_hin_cf|0,mlmm_arc_hin_cf:challenge|0
 MC:indicnxnli_hin_mcf|0
-GEN:mlqa_hin|5,xquad_hin|5,indicqa_hin|5
+GEN:mlqa_hin|5,xquad_hin|5
+# Commented out due to datasets 4.x not supporting Python scripts:
+# indicxcopa_hin_cf|0 (ai4bharat/IndicCOPA)
+# indicqa_hin|5 (ai4bharat/IndicQA)
