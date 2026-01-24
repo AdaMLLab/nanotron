@@ -13,3 +13,9 @@ __pycache__/
 
 # Archive directory
 archive/
+
+# Generated evaluation plots and results (keep .py files)
+evaluations/plotting/*.png
+evaluations/plotting/*.pdf
+evaluations/plotting/*.md
+!evaluations/plotting/*.py

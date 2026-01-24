@@ -1,0 +1,2 @@
+CF:xnli2.0_tur_cf|0,belebele_tur_Latn_cf|0,community_hellaswag_tur_cf|0,xcopa_tur_cf|0,exams_tur_cf|0,community_arc_tur_cf:easy|0,mmlu_tur_cf:biology|0,mmlu_tur_cf:chemistry|0,mmlu_tur_cf:geography|0,mmlu_tur_cf:history|0,mmlu_tur_cf:mathematics|0,mmlu_tur_cf:philosophy|0,mmlu_tur_cf:physics|0,mmlu_tur_cf:religion_and_ethics|0,mmlu_tur_cf:turkish_language_and_literature|0
+GEN:tquadv2_tur|5,xquad_tur|5

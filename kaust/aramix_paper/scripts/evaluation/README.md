@@ -44,7 +44,21 @@ Where `$LIGHTEVAL=/home/user/miniconda3/envs/lighteval/lib/python3.11/site-packa
 
 ### Datasets Still Using Python Scripts
 
-Some datasets (`ai4bharat/IndicCOPA`, `ai4bharat/IndicQA`) still use `.py` loader scripts in their main branch. Since `datasets` 4.x completely removed script support (even `trust_remote_code=True` doesn't work), these tasks are commented out in `hindi_finetasks.txt`.
+Some datasets still use `.py` loader scripts in their main branch. Since `datasets` 4.x completely removed script support (even `trust_remote_code=True` doesn't work), we've created repaired versions or commented out the tasks:
+
+**Repaired datasets (use these):**
+- `AdaMLLab/indicxnli_repaired` - replaces `Divyanshu/indicxnli`
+- `AdaMLLab/mlqa_repaired` - replaces `facebook/mlqa`
+
+**Still broken (commented out in hindi_finetasks.txt):**
+- `ai4bharat/IndicCOPA` - indicxcopa tasks
+- `ai4bharat/IndicQA` - indicqa tasks
+
+```bash
+# indicxnli - Divyanshu/indicxnli (switch to repaired dataset)
+sed -i 's|hf_repo="Divyanshu/indicxnli"|hf_repo="AdaMLLab/indicxnli_repaired"|' \
+  $LIGHTEVAL/tasks/multilingual/tasks/xnli_indic.py
+```
 
 ### Clear Cached Datasets
 
@@ -56,6 +70,7 @@ rm -rf ~/.cache/huggingface/hub/datasets--jon-tow--okapi_arc_challenge
 rm -rf ~/.cache/huggingface/hub/datasets--facebook--mlqa
 rm -rf ~/.cache/huggingface/hub/datasets--ai4bharat--IndicCOPA
 rm -rf ~/.cache/huggingface/hub/datasets--ai4bharat--IndicQA
+rm -rf ~/.cache/huggingface/hub/datasets--Divyanshu--indicxnli
 ```
 
 ### Normalization Bugs in normalizations.py

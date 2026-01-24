@@ -114,10 +114,10 @@ run_step() {
     local gpu=$2
     local out_dir="$RESULTS_DIR/step_${step}"
 
-    # Check if all tasks are already completed
+    # Check if all tasks are already completed (or empty)
     local cf_done=0 mc_done=0 gen_done=0
-    [ -f "$out_dir/.completed_cf" ] && cf_done=1
-    [ -f "$out_dir/.completed_mc" ] && mc_done=1
+    [ -z "$CF_TASKS" ] || [ -f "$out_dir/.completed_cf" ] && cf_done=1
+    [ -z "$MC_TASKS" ] || [ -f "$out_dir/.completed_mc" ] && mc_done=1
     [ -z "$GEN_TASKS" ] || [ -f "$out_dir/.completed_gen" ] && gen_done=1
 
     if [ $cf_done -eq 1 ] && [ $mc_done -eq 1 ] && [ $gen_done -eq 1 ]; then
@@ -130,11 +130,15 @@ run_step() {
         echo "[GPU $gpu] Step $step: Converting..."
         convert_checkpoint "$step" "$gpu" ""
 
-        echo "[GPU $gpu] Step $step: Running CF..."
-        run_eval "$step" "$gpu" "$CF_TASKS" "" "cf"
+        if [ -n "$CF_TASKS" ] && [ $cf_done -eq 0 ]; then
+            echo "[GPU $gpu] Step $step: Running CF..."
+            run_eval "$step" "$gpu" "$CF_TASKS" "" "cf"
+        fi
 
-        echo "[GPU $gpu] Step $step: Running MC..."
-        run_eval "$step" "$gpu" "$MC_TASKS" "" "mc"
+        if [ -n "$MC_TASKS" ] && [ $mc_done -eq 0 ]; then
+            echo "[GPU $gpu] Step $step: Running MC..."
+            run_eval "$step" "$gpu" "$MC_TASKS" "" "mc"
+        fi
 
         rm -rf "$HF_MODELS_DIR/${MODEL_NAME}_step_${step}"
     fi
