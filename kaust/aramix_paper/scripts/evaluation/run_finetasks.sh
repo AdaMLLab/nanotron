@@ -113,6 +113,13 @@ run_step() {
     local step=$1
     local gpu=$2
     local out_dir="$RESULTS_DIR/step_${step}"
+    local nanotron_path="$CHECKPOINT_DIR/$step"
+
+    # Skip incomplete checkpoints (missing model_config.json)
+    if [ ! -f "$nanotron_path/model_config.json" ]; then
+        echo "[GPU $gpu] Step $step: Skipping (incomplete checkpoint - missing model_config.json)"
+        return 0
+    fi
 
     # Check if all tasks are already completed (or empty)
     local cf_done=0 mc_done=0 gen_done=0
