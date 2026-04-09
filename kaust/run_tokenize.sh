@@ -32,7 +32,7 @@ if [ $# -lt 2 ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-NANOTRON_DIR="$(dirname "$(dirname "$(dirname "$(dirname "$SCRIPT_DIR")")")")"
+NANOTRON_DIR="$(dirname "$SCRIPT_DIR")"
 
 if [ ! -d "$INPUT_DIR" ]; then
     echo "ERROR: Data not found at $INPUT_DIR"

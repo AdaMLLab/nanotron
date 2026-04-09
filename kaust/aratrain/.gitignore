@@ -1,0 +1,21 @@
+# Tokenization/preprocessing logs
+logs/
+logs_consensus/
+logs_*/
+
+# Model checkpoints (stored externally)
+checkpoints*/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Archive directory
+archive/
+
+# Generated evaluation plots and results (keep .py files)
+evaluations/plotting/*.png
+evaluations/plotting/*.pdf
+evaluations/plotting/*.md
+!evaluations/plotting/*.py

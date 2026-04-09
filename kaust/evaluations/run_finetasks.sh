@@ -11,9 +11,9 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 CHECKPOINT_DIR="${1:-$HOME/github/nanotron/kaust/checkpoints/checkpoints_aramix_30bt}"
-NUM_CHECKPOINTS="${2:-9999}"
-TASK_CONFIG="${3:-$HOME/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
-OUTPUT_DIR="${4:-$HOME/github/nanotron/kaust/aramix_paper/results}"
+NUM_CHECKPOINTS="${3:-9999}"
+TASK_CONFIG="${4:-$HOME/github/nanotron/kaust/aramix_paper/config/evaluation/arabic_finetasks.txt}"
+OUTPUT_DIR="${2:-$HOME/github/nanotron/kaust/aramix_paper/results}"
 TOKENIZER="${5:-google/gemma-2b}"
 BATCH_SIZE="${6:-8}"
 NUM_GPUS="${7:-8}"

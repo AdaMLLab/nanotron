@@ -59,6 +59,7 @@ def get_args():
     )
     p1.add_argument("--column", type=str, default="text", help="Column to preprocess from the Dataset. Default: text")
     p1.add_argument("--split", type=str, default="train", help="Which split of the data to process. Default: train")
+    p1.add_argument("--streaming", action="store_true", help="Use streaming mode to avoid schema mismatch issues. Default: False")
 
     p2 = sp.add_parser(name="jsonl")
     p2.add_argument(
@@ -84,6 +85,7 @@ def main(args):
             dataset=args.dataset,
             text_key=args.column,
             dataset_options={"split": args.split},
+            streaming=args.streaming,
         )
     else:
         datatrove_reader = JsonlReader(data_folder=args.dataset, text_key=args.column, glob_pattern=args.glob_pattern)

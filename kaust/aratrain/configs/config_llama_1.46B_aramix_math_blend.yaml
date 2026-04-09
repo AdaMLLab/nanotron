@@ -1,13 +1,21 @@
 checkpoints:
   checkpoint_interval: 1200
-  checkpoints_path: /home/alrashsm/nanotron_manar/arabicweb24_10bt
+  checkpoints_path: ~/nanotron_checkpoints/aratrain/aramix_math_blend_25bt
   checkpoints_path_is_shared_file_system: true
-  resume_checkpoint_path: /home/alrashsm/nanotron_manar/arabicweb24_10bt
+  resume_checkpoint_path: ~/nanotron_checkpoints/aratrain/aramix_hq_10bt
   save_initial_state: false
+  save_final_state: true
 data_stages:
 - data:
     dataset:
-      dataset_folder: ~/tokenized_data/gemma_tokenizer/arabicweb24
+      dataset_folder:
+      - ~/tokenized_data/gemma_tokenizer/aratrain/aramix-hq
+      - ~/tokenized_data/gemma_tokenizer/aratrain/ultradata-math-textbook-exercise-ar
+      - ~/tokenized_data/gemma_tokenizer/aratrain/ultradata-math-qa-ar
+      dataset_weights:
+      - 0.5
+      - 0.25
+      - 0.25
     num_loading_workers: 4
     seed: 42
   name: Stable Training Stage
@@ -16,8 +24,8 @@ general:
   benchmark_csv_path: null
   consumed_train_samples: null
   ignore_sanity_checks: true
-  project: llama_1.46B_arabicweb24
-  run: llama_1.46B_arabicweb24_%date_%jobid
+  project: llama_1.46B_aratrain_aramix_math_blend
+  run: llama_1.46B_aratrain_aramix_math_blend_%date_%jobid
   seed: 42
   step: null
 lighteval: null
@@ -56,7 +64,7 @@ optimizer:
   learning_rate_scheduler:
     learning_rate: 0.0003
     lr_decay_starting_step: 500
-    lr_decay_steps: 4300
+    lr_decay_steps: 13806
     lr_decay_style: cosine
     lr_warmup_steps: 500
     lr_warmup_style: linear
@@ -88,5 +96,5 @@ tokens:
   limit_val_batches: 0
   micro_batch_size: 4
   sequence_length: 2048
-  train_steps: 4800
+  train_steps: 14306
   val_check_interval: -1

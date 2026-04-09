@@ -170,6 +170,9 @@ class NanosetDatasetsArgs:
             self.dataset_folder = [self.dataset_folder]
             self.dataset_weights = [1]
 
+        # Expand ~ to home directory in all folder paths
+        self.dataset_folder = [os.path.expanduser(f) for f in self.dataset_folder]
+
         # Check if dataset_weights is provided and matches the number of dataset folders
         if self.dataset_weights is not None and len(self.dataset_weights) != len(self.dataset_folder):
             raise ValueError(
@@ -178,8 +181,6 @@ class NanosetDatasetsArgs:
 
         # Read the first metadata file in the dataset folder to extract tokenizer name and token size.
         for folder in self.dataset_folder:
-            # Expand ~ to home directory if provided
-            folder = os.path.expanduser(folder)
             # Find all metadata files in the folder
             metadata_files = glob.glob(os.path.join(folder, "*.metadata"))
             if metadata_files:
@@ -254,10 +255,9 @@ class CheckpointsArgs:
     checkpoints_path_is_shared_file_system: Optional[bool] = False
 
     def __post_init__(self):
-        if isinstance(self.checkpoints_path, str):
-            self.checkpoints_path = xPath(os.path.expanduser(self.checkpoints_path))
-        if isinstance(self.resume_checkpoint_path, str):
-            self.resume_checkpoint_path = xPath(os.path.expanduser(self.resume_checkpoint_path))
+        self.checkpoints_path = xPath(os.path.expanduser(str(self.checkpoints_path)))
+        if self.resume_checkpoint_path is not None:
+            self.resume_checkpoint_path = xPath(os.path.expanduser(str(self.resume_checkpoint_path)))
 
 
 @dataclass

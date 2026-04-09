@@ -1,13 +1,13 @@
 checkpoints:
   checkpoint_interval: 1200
-  checkpoints_path: ~/github/nanotron/kaust/checkpoints/checkpoints_arabicweb24
+  checkpoints_path: ~/github/nanotron/kaust/checkpoints/checkpoints_shortcrawl
   checkpoints_path_is_shared_file_system: true
-  resume_checkpoint_path: ~/github/nanotron/kaust/checkpoints/checkpoints_arabicweb24
+  resume_checkpoint_path: ~/github/nanotron/kaust/checkpoints/checkpoints_shortcrawl
   save_initial_state: false
 data_stages:
 - data:
     dataset:
-      dataset_folder: ~/tokenized_data/gemma_tokenizer/arabicweb24
+      dataset_folder: ~/tokenized_data/gemma_tokenizer/manar-shortcrawl
     num_loading_workers: 4
     seed: 42
   name: Stable Training Stage
@@ -16,8 +16,8 @@ general:
   benchmark_csv_path: null
   consumed_train_samples: null
   ignore_sanity_checks: true
-  project: llama_1.46B_arabicweb24
-  run: llama_1.46B_arabicweb24_%date_%jobid
+  project: llama_1.46B_shortcrawl
+  run: llama_1.46B_shortcrawl_%date_%jobid
   seed: 42
   step: null
 lighteval: null
