@@ -1,0 +1,91 @@
+{
+  "_doc": "Single source of truth mapping every run name to language, source-dataset family, display label, and result path. The plotter reads this to (a) select per-language runs, (b) group runs by family for seed aggregation, (c) order/color them consistently, and (d) resolve where each run's lighteval JSONs live (NEW = under ~/nanotron-orix-neurips-results-260430/results, PRIOR = via the prior_<run> symlinks created at scaffold time).",
+
+  "tokens_per_step": 2097152,
+
+  "families": {
+    "arabic": {
+      "Consensus":      {"source": "consensus dedup of arabicweb24+aramix", "color": "#e91e63"},
+      "MinHash":        {"source": "minhash dedup of arabicweb24+aramix",   "color": "#009688"},
+      "ArabicWeb24":    {"source": "ArabicWeb24",                            "color": "#ff9800"},
+      "FinePDFs":       {"source": "FinePDFs (ar)",                          "color": "#9e9e9e"},
+      "AraMix-HQ":      {"source": "AraMix HQ subset",                       "color": "#00bcd4"},
+      "FineWeb2-HQ":    {"source": "FineWeb2-HQ (ar)",                       "color": "#2196f3"},
+      "Consensus-noAW24": {"source": "Consensus dedup excluding ArabicWeb24","color": "#9c27b0"},
+      "MinHash-noAW24":   {"source": "MinHash dedup excluding ArabicWeb24",  "color": "#4caf50"}
+    },
+    "hindi": {
+      "Consensus":            {"source": "Consensus dedup of culturax+hindi pool", "color": "#e91e63"},
+      "MinHash":              {"source": "MinHash dedup of culturax+hindi pool",   "color": "#009688"},
+      "CulturaX-Hindi":       {"source": "CulturaX (Hindi)",                       "color": "#ff9800"},
+      "Consensus-noCulturaX": {"source": "Consensus dedup excluding CulturaX",     "color": "#9c27b0"},
+      "MinHash-noCulturaX":   {"source": "MinHash dedup excluding CulturaX",       "color": "#4caf50"}
+    },
+    "turkish": {
+      "Consensus":         {"source": "Consensus dedup of fineweb2+turkish pool", "color": "#e91e63"},
+      "MinHash":           {"source": "MinHash dedup of fineweb2+turkish pool",   "color": "#009688"},
+      "FineWeb2-Turkish":  {"source": "FineWeb2 (Turkish)",                       "color": "#ff9800"},
+      "FineWeb2-HQ":       {"source": "FineWeb2-HQ (tr)",                         "color": "#2196f3"},
+      "Consensus-noFW2":   {"source": "Consensus dedup excluding FineWeb2",       "color": "#9c27b0"},
+      "MinHash-noFW2":     {"source": "MinHash dedup excluding FineWeb2",         "color": "#4caf50"}
+    },
+    "indonesian": {
+      "IndMix":             {"source": "Mixture for Indonesian (HPLT2 + others, consensus dedup)", "color": "#e91e63"},
+      "HPLT2-Indonesian":   {"source": "HPLT2 (Indonesian)",                                       "color": "#ff9800"},
+      "IndMix-noHPLT2":     {"source": "IndMix excluding HPLT2",                                    "color": "#9c27b0"}
+    },
+    "italian": {
+      "ItaMix":            {"source": "Mixture for Italian (FineWeb2 + others)", "color": "#e91e63"},
+      "FineWeb2-Italian":  {"source": "FineWeb2 (Italian)",                       "color": "#ff9800"},
+      "ItaMix-noFW2":      {"source": "ItaMix excluding FineWeb2",                "color": "#9c27b0"}
+    },
+    "japanese": {
+      "JpnMix":            {"source": "Mixture for Japanese (FineWeb2 + others)", "color": "#e91e63"},
+      "FineWeb2-Japanese": {"source": "FineWeb2 (Japanese)",                       "color": "#ff9800"},
+      "JpnMix-noFW2":      {"source": "JpnMix excluding FineWeb2",                 "color": "#9c27b0"}
+    }
+  },
+
+  "runs": {
+    "consensus_seed1":          {"language": "arabic",  "family": "Consensus",            "kind": "new",   "results_subpath": "consensus_seed1"},
+    "consensus_seed2":          {"language": "arabic",  "family": "Consensus",            "kind": "new",   "results_subpath": "consensus_seed2"},
+    "consensus_dup3":           {"language": "arabic",  "family": "Consensus",            "kind": "new",   "results_subpath": "consensus_dup3"},
+    "consensus_dup4":           {"language": "arabic",  "family": "Consensus",            "kind": "new",   "results_subpath": "consensus_dup4"},
+    "arabicweb24_seed1":        {"language": "arabic",  "family": "ArabicWeb24",          "kind": "new",   "results_subpath": "arabicweb24_seed1"},
+    "arabicweb24_seed2":        {"language": "arabic",  "family": "ArabicWeb24",          "kind": "new",   "results_subpath": "arabicweb24_seed2"},
+    "consensus":                {"language": "arabic",  "family": "Consensus",            "kind": "prior", "results_subpath": "prior_consensus"},
+    "arabicweb24":              {"language": "arabic",  "family": "ArabicWeb24",          "kind": "prior", "results_subpath": "prior_arabicweb24"},
+    "aramix":                   {"language": "arabic",  "family": "MinHash",              "kind": "prior", "results_subpath": "prior_aramix"},
+    "finepdfs_arabic":          {"language": "arabic",  "family": "FinePDFs",             "kind": "prior", "results_subpath": "prior_finepdfs_arabic"},
+    "aramix_hq":                {"language": "arabic",  "family": "AraMix-HQ",            "kind": "prior", "results_subpath": "prior_aramix_hq"},
+    "fineweb2_hq_arabic":       {"language": "arabic",  "family": "FineWeb2-HQ",          "kind": "prior", "results_subpath": "prior_fineweb2_hq_arabic"},
+    "consensus_no_aw24":        {"language": "arabic",  "family": "Consensus-noAW24",     "kind": "prior", "results_subpath": "prior_consensus_no_aw24"},
+    "minhash_no_aw24":          {"language": "arabic",  "family": "MinHash-noAW24",       "kind": "prior", "results_subpath": "prior_minhash_no_aw24"},
+
+    "hinmix_seed1":             {"language": "hindi",   "family": "Consensus",            "kind": "new",   "results_subpath": "hinmix_seed1"},
+    "hinmix_seed2":             {"language": "hindi",   "family": "Consensus",            "kind": "new",   "results_subpath": "hinmix_seed2"},
+    "hinmix_dup3":              {"language": "hindi",   "family": "Consensus",            "kind": "new",   "results_subpath": "hinmix_dup3"},
+    "culturax_hindi_seed1":     {"language": "hindi",   "family": "CulturaX-Hindi",       "kind": "new",   "results_subpath": "culturax_hindi_seed1"},
+    "culturax_hindi_seed2":     {"language": "hindi",   "family": "CulturaX-Hindi",       "kind": "new",   "results_subpath": "culturax_hindi_seed2"},
+    "hinmix_consensus":         {"language": "hindi",   "family": "Consensus",            "kind": "prior", "results_subpath": "prior_hinmix_consensus"},
+    "hinmix_minhash_deduped_31bt": {"language": "hindi","family": "MinHash",              "kind": "prior", "results_subpath": "prior_hinmix_minhash_deduped_31bt"},
+    "culturax_hindi":           {"language": "hindi",   "family": "CulturaX-Hindi",       "kind": "prior", "results_subpath": "prior_culturax_hindi"},
+    "hinmix_consensus_no_culturax":          {"language": "hindi", "family": "Consensus-noCulturaX", "kind": "prior", "results_subpath": "prior_hinmix_consensus_no_culturax"},
+    "hinmix_minhash_no_culturax_consensus_checked": {"language": "hindi", "family": "MinHash-noCulturaX", "kind": "prior", "results_subpath": "prior_hinmix_minhash_no_culturax_consensus_checked"},
+
+    "turmix_seed1":             {"language": "turkish", "family": "Consensus",            "kind": "new",   "results_subpath": "turmix_seed1"},
+    "turmix_seed2":             {"language": "turkish", "family": "Consensus",            "kind": "new",   "results_subpath": "turmix_seed2"},
+    "turmix_dup3":              {"language": "turkish", "family": "Consensus",            "kind": "new",   "results_subpath": "turmix_dup3"},
+    "turmix_dup4":              {"language": "turkish", "family": "Consensus",            "kind": "new",   "results_subpath": "turmix_dup4"},
+    "fineweb2_turkish_seed1":   {"language": "turkish", "family": "FineWeb2-Turkish",     "kind": "new",   "results_subpath": "fineweb2_turkish_seed1"},
+    "turmix_consensus":         {"language": "turkish", "family": "Consensus",            "kind": "prior", "results_subpath": "prior_turmix_consensus"},
+    "turmix_minhash_deduped_31bt": {"language": "turkish","family": "MinHash",            "kind": "prior", "results_subpath": "prior_turmix_minhash_deduped_31bt"},
+    "fineweb2_turkish":         {"language": "turkish", "family": "FineWeb2-Turkish",     "kind": "prior", "results_subpath": "prior_fineweb2_turkish"},
+    "fineweb2_hq_turkish":      {"language": "turkish", "family": "FineWeb2-HQ",          "kind": "prior", "results_subpath": "prior_fineweb2_hq_turkish"},
+    "turmix_consensus_no_fineweb2": {"language": "turkish", "family": "Consensus-noFW2",  "kind": "prior", "results_subpath": "prior_turmix_consensus_no_fineweb2"},
+    "turmix_minhash_no_fineweb2_consensus_checked": {"language": "turkish", "family": "MinHash-noFW2", "kind": "prior", "results_subpath": "prior_turmix_minhash_no_fineweb2_consensus_checked"},
+
+    "indmix_seed42":            {"language": "indonesian", "family": "IndMix",            "kind": "new",   "results_subpath": "indmix_seed42"},
+    "hplt2_indonesian_seed42":  {"language": "indonesian", "family": "HPLT2-Indonesian",  "kind": "new",   "results_subpath": "hplt2_indonesian_seed42"}
+  }
+}

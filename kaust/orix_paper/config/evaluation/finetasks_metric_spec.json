@@ -1,0 +1,98 @@
+{
+  "_doc": "Per-task metric/category/baseline spec sourced from FineWeb-2 paper (arXiv 2506.20920) Tables A.10.1 (35-39) and the canary-language fine_tasks/. Used by the FineTasks aggregator: rescale = max(0, (score - baseline) / (1 - baseline)), then mean within category, then mean across categories. metric values map to lighteval JSON keys via key_map in the plotter (acc_pmi -> acc_norm_pmi; acc_token -> acc_norm_token; acc_char -> acc_norm; acc -> acc; f1 -> f1).",
+  "tokens_per_step": 2097152,
+  "languages": {
+    "arabic": {
+      "tasks": [
+        {"task": "exams_ara_cf",                "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "mmlu_ara_cf",                  "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "alghafa_arc_ara_cf:easy",      "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "alghafa_sciqa_ara_cf",         "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "belebele_arb_Arab_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "soqal_ara_cf",                 "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "alghafa_race_ara_cf",          "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "race_ar",                      "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "sciq_ar",                      "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "mlqa_ara",                     "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "tydiqa_ara",                   "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "arcd_ara",                     "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "xcodah_ara_cf",                "category": "RES", "metric": "acc_token", "baseline": 0.25},
+        {"task": "alghafa_piqa_ara_cf",          "category": "RES", "metric": "acc_token", "baseline": 0.5},
+        {"task": "xcsqa_ara_cf",                 "category": "RES", "metric": "acc_token", "baseline": 0.2},
+        {"task": "xnli2.0_ara_cf",               "category": "NLU", "metric": "acc_token", "baseline": 0.333},
+        {"task": "mlmm_hellaswag_ara_cf",        "category": "NLU", "metric": "acc_token", "baseline": 0.25},
+        {"task": "xstory_cloze_ara_cf",          "category": "NLU", "metric": "acc_token", "baseline": 0.5}
+      ]
+    },
+    "hindi": {
+      "tasks": [
+        {"task": "meta_mmlu_hin_cf",             "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "mlmm_arc_hin_cf:challenge",    "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "community_arc_hin_cf:easy",    "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "belebele_hin_Deva_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "indicqa_hin",                  "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "mlqa_hin",                     "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "xquad_hin",                    "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "xcodah_hin_cf",                "category": "RES", "metric": "acc_token", "baseline": 0.25},
+        {"task": "indicxcopa_hin_cf",            "category": "RES", "metric": "acc_token", "baseline": 0.5},
+        {"task": "xcsqa_hin_cf",                 "category": "RES", "metric": "acc_token", "baseline": 0.2},
+        {"task": "xstory_cloze_hin_cf",          "category": "RES", "metric": "acc_token", "baseline": 0.5},
+        {"task": "mlmm_hellaswag_hin_cf",        "category": "NLU", "metric": "acc_token", "baseline": 0.25},
+        {"task": "indicnxnli_hin_cf",            "category": "NLU", "metric": "acc_token", "baseline": 0.333},
+        {"task": "xnli_hin_cf",                  "category": "NLU", "metric": "acc_token", "baseline": 0.333}
+      ]
+    },
+    "turkish": {
+      "tasks": [
+        {"task": "community_arc_tur_cf:easy",    "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "exams_tur_cf",                 "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "mmlu_tur_cf",                  "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "community_mmlu_tur_cf",        "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "belebele_tur_Latn_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "tquadv2_tur",                  "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "xquad_tur",                    "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "xcopa_tur_cf",                 "category": "RES", "metric": "acc_token", "baseline": 0.5},
+        {"task": "community_hellaswag_tur_cf",   "category": "NLU", "metric": "acc_token", "baseline": 0.25},
+        {"task": "xnli2.0_tur_cf",               "category": "NLU", "metric": "acc_token", "baseline": 0.333}
+      ]
+    },
+    "indonesian": {
+      "tasks": [
+        {"task": "mlmm_arc_ind_cf:challenge",    "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "belebele_ind_Latn_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "tydiqa_ind",                   "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "mlmm_hellaswag_ind_cf",        "category": "NLU", "metric": "acc_token", "baseline": 0.25},
+        {"task": "xstory_cloze_ind_cf",          "category": "NLU", "metric": "acc_token", "baseline": 0.5},
+        {"task": "xcopa_ind_cf",                 "category": "RES", "metric": "acc_token", "baseline": 0.5}
+      ],
+      "_omitted_paper_tasks": ["Indo-MMLU (Koto+) — not in lighteval"]
+    },
+    "italian": {
+      "tasks": [
+        {"task": "mlmm_arc_ita_cf:challenge",    "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25},
+        {"task": "meta_mmlu_ita_cf",             "category": "GK",  "metric": "acc_pmi",   "baseline": 0.25, "subjects_average": true},
+        {"task": "m3exams_ita_cf",               "category": "GK",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "mintaka_ita",                  "category": "GK",  "metric": "f1",        "baseline": 0.0},
+        {"task": "belebele_ita_Latn_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "squad_ita",                    "category": "RC",  "metric": "f1",        "baseline": 0.0},
+        {"task": "mlmm_hellaswag_ita_cf",        "category": "NLU", "metric": "acc_token", "baseline": 0.25},
+        {"task": "xcsqa_ita_cf",                 "category": "RES", "metric": "acc_pmi",   "baseline": 0.2},
+        {"task": "xcodah_ita_cf",                "category": "RES", "metric": "acc_token", "baseline": 0.25},
+        {"task": "xcopa_ita_cf",                 "category": "RES", "metric": "acc_token", "baseline": 0.5}
+      ]
+    },
+    "japanese": {
+      "tasks": [
+        {"task": "belebele_jpn_Jpan_cf",         "category": "RC",  "metric": "acc_token", "baseline": 0.25},
+        {"task": "xwinograd_jpn_cf",             "category": "NLU", "metric": "acc_token", "baseline": 0.5},
+        {"task": "xcsqa_jpn_cf",                 "category": "RES", "metric": "acc_pmi",   "baseline": 0.2},
+        {"task": "xcodah_jpn_cf",                "category": "RES", "metric": "acc_token", "baseline": 0.25}
+      ],
+      "_omitted_paper_tasks": [
+        "JMMLU (nlp-waseda) — not in lighteval",
+        "JCommonSenseQA / CommonSenseQA-JP (Kurihara+) — not in lighteval",
+        "JSQuAD — not in lighteval"
+      ]
+    }
+  }
+}

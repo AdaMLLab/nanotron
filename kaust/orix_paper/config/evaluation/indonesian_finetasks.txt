@@ -1,0 +1,5 @@
+# Indonesian — FineWeb-2 Table 36 (unseen language)
+# Paper task: Indo-MMLU (Koto+) — NOT IN LIGHTEVAL, omitted (no silent substitution per FineWeb-2 protocol)
+# Paper specifies :easy for Okapi:ARC but only :challenge available in lighteval; using :challenge as the closest
+CF:mlmm_arc_ind_cf:challenge|0,belebele_ind_Latn_cf|0,mlmm_hellaswag_ind_cf|0,xcopa_ind_cf|0,xstory_cloze_ind_cf|0
+GEN:tydiqa_ind|5

@@ -181,3 +181,6 @@ kaust/evaluations/results/
 kaust/testing_aramix/checkpoints*/
 kaust/testing_aramix/logs*/
 .cursor/
+
+# Orix paper — local-only setup notes (not part of the public scripts)
+kaust/orix_paper/scripts/evaluation/eval_guide.md

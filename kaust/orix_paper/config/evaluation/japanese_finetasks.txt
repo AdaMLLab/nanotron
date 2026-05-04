@@ -1,0 +1,7 @@
+# Japanese — FineWeb-2 Table 38 (unseen language)
+# Paper tasks NOT IN LIGHTEVAL (omitted per no-substitution protocol):
+#   - JMMLU (nlp-waseda/JMMLU) — not registered
+#   - CommonSenseQA (Kurihara+) / JCommonSenseQA — not registered
+#   - JSQuAD — not registered
+# Available: X-CSQA, Belebele, X-CODAH, X-Winograd. (4 of 7 paper tasks)
+CF:xcsqa_jpn_cf|0,belebele_jpn_Jpan_cf|0,xcodah_jpn_cf|0,xwinograd_jpn_cf|0

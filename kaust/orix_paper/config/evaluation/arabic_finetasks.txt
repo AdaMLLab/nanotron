@@ -1,0 +1,3 @@
+CF:exams_ara_cf|0,mmlu_ara_cf|0,alghafa_arc_ara_cf:easy|0,belebele_arb_Arab_cf|0,soqal_ara_cf|0,xcodah_ara_cf|0,alghafa_piqa_ara_cf|0,xcsqa_ara_cf|0,xnli2.0_ara_cf|0,mlmm_hellaswag_ara_cf|0,xstory_cloze_ara_cf|0
+MC:race_ar|0,sciq_ar|0
+GEN:mlqa_ara|5,tydiqa_ara|5,arcd_ara|5
